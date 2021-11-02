@@ -1,13 +1,16 @@
 import React from 'react'
 import Navigation from '../../../Shared/Navigation/Navigation'
+import AppoinmentHeader from '../AppoinmentHeader/AppoinmentHeader'
+import AvailableAppoinment from '../AvailableAppoinment/AvailableAppoinment'
 
 const Appoinment = () => {
     return (
         <div>
             <Navigation/>
-            <h2>Appoinment</h2>
+            <AppoinmentHeader/>
+            <AvailableAppoinment/>
         </div>
     )
 }
 
-export default Appoinment
+export default Appoinment;
