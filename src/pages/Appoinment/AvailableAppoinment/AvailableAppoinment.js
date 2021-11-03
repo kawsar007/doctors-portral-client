@@ -49,7 +49,7 @@ const AvailableAppoinment = ({ date, setDate }) => {
                 {
                     bookings.map(booking => <Bookings key={booking.id}
                         booking={booking}
-                        date={date} />)
+                        date={date.toDateString()} />)
                 }
             </Grid>
         </Container>
