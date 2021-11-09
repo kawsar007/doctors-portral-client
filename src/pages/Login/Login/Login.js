@@ -1,3 +1,4 @@
+import GoogleIcon from '@mui/icons-material/Google';
 import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
@@ -6,7 +7,7 @@ import loginImg from '../../../images/login.png';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
-    const { user, loginUser, isLoading, authError } = useAuth();
+    const { user, loginUser, signInWithGoogle, isLoading, authError } = useAuth();
 
     const location = useLocation();
     const history = useHistory();
@@ -19,6 +20,10 @@ const Login = () => {
         const newLoginData = { ...loginData };
         newLoginData[field] = value;
         setLoginData(newLoginData);
+    }
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle(location, history);
     }
 
     const handleLoginSubmit = e => {
@@ -56,6 +61,8 @@ const Login = () => {
                         {user?.email && <Alert severity="success">User created successfully</Alert>}
                         {authError && <Alert severity="error">{authError}</Alert>}
                     </form>
+                    <p>-----------------------</p>
+                    <Button onClick={handleGoogleSignIn} sx={{ width: '75%', m: 1 }} type="submit" variant="contained"><span style={{marginRight: '20px', lineHeight: '50%'}}><GoogleIcon/></span>Google Sign in</Button>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <img src={loginImg} alt="LoginImg" />

@@ -5,7 +5,9 @@ import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import React, { useState } from 'react';
+import useAuth from '../../../hooks/useAuth';
+
 
 const style = {
     position: 'absolute',
@@ -19,15 +21,51 @@ const style = {
     p: 4,
 };
 
-function AppoinmentModal({ date, booking, openBooking, handleBookingClose }) {
+function AppoinmentModal({ date, booking, openBooking, setBookingSuccess, handleBookingClose }) {
     const { name, time } = booking;
 
-    const hangleBookingSubmit = (e) => {
-        e.preventDefault();
-        alert("hangleBookingSubmit")
-        handleBookingClose();
+    const { user } = useAuth();
+    const initialInfo = { patientName: user.displayName, email: user.email, phone: "" }
+    const [bookingInfo, setBookingInfo] = useState(initialInfo);
+
+    const handleOnBlur = (e) => {
+        const field = e.target.name;
+        const value = e.target.value;
+
+        const newInfo = { ...bookingInfo };
+        newInfo[field] = value;
+        setBookingInfo(newInfo);
     }
-    
+
+    const hangleBookingSubmit = (e) => {
+        // Call Data
+        const appoinment = {
+            ...bookingInfo,
+            time,
+            serviceName: name,
+            date: date.toLocaleString(),
+        }
+        // send to server
+        fetch('http://localhost:5000/appoinments', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(appoinment)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.insertedId){
+                
+                setBookingSuccess(true)
+                handleBookingClose();
+            }
+        });
+
+        e.preventDefault();
+        
+    }
+
     return (
         <Modal
             aria-labelledby="transition-modal-title"
@@ -49,38 +87,44 @@ function AppoinmentModal({ date, booking, openBooking, handleBookingClose }) {
                         <form onSubmit={hangleBookingSubmit}>
                             <TextField
                                 disabled
-                                sx={{width: '90%', m:1}}
+                                sx={{ width: '90%', m: 1 }}
                                 id="outlined-size-small"
                                 defaultValue={time}
                                 size="small"
                             />
                             <TextField
-                                sx={{width: '90%', m:1}}
+                                sx={{ width: '90%', m: 1 }}
                                 id="outlined-size-small"
-                                defaultValue="Your name"
+                                onBlur={handleOnBlur}
+                                name="patientName"
+                                defaultValue={user.displayName}
                                 size="small"
                             />
                             <TextField
-                                sx={{width: '90%', m:1}}
+                                sx={{ width: '90%', m: 1 }}
                                 id="outlined-size-small"
-                                defaultValue="Your email"
+                                onBlur={handleOnBlur}
+                                name="email"
+                                defaultValue={user.email}
                                 size="small"
                             />
                             <TextField
-                                
-                                sx={{width: '90%', m:1}}
+
+                                sx={{ width: '90%', m: 1 }}
                                 id="outlined-size-small"
+                                onBlur={handleOnBlur}
+                                name="phone"
                                 defaultValue="Your Phone"
                                 size="small"
                             />
                             <TextField
                                 disabled
-                                sx={{width: '90%', m:1}}
+                                sx={{ width: '90%', m: 1 }}
                                 id="outlined-size-small"
                                 defaultValue={date}
                                 size="small"
                             />
-                            <Button type="submit" sx={{m:1}} variant="contained">Submit</Button>
+                            <Button type="submit" sx={{ m: 1 }} variant="contained">Submit</Button>
                         </form>
                     </Typography>
                 </Box>
