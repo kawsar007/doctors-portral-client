@@ -13,30 +13,30 @@ import PrivateRoute from "./pages/PrivateRoute/PrivateRoute";
 function App() {
   return (
     <div className="App">
-     <AuthProvider>
-     <Router>
-       <Switch>
-          <PrivateRoute path="/appoinment">
-            <Appoinment />
-          </PrivateRoute>
-          <PrivateRoute path="/dashboard">
-            <Dashboard />
-          </PrivateRoute>
-          <Route path="/home">
-            <Home />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
+      <AuthProvider>
+        <Router>
+          <Switch>
+            <PrivateRoute path="/appoinment">
+              <Appoinment />
+            </PrivateRoute>
+            <PrivateRoute path="/dashboard">
+              <Dashboard />
+            </PrivateRoute>
+            <Route path="/home">
+              <Home />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route exact path="/">
+              <Home />
+            </Route>
+          </Switch>
         </Router>
-     </AuthProvider>
+      </AuthProvider>
     </div>
   );
 }
