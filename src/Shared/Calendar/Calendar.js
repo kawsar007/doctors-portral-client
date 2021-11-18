@@ -4,7 +4,7 @@ import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 
-function Calendar({date, setDate}) {
+const Calendar = ({date, setDate}) => {
     return (
       <LocalizationProvider dateAdapter={AdapterDateFns}>
       <StaticDatePicker
@@ -19,4 +19,4 @@ function Calendar({date, setDate}) {
     )
 }
 
-export default Calendar
+export default Calendar;

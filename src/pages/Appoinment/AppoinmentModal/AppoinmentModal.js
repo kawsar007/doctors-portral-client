@@ -43,8 +43,10 @@ function AppoinmentModal({ date, booking, openBooking, setBookingSuccess, handle
             ...bookingInfo,
             time,
             serviceName: name,
-            date: date.toLocaleString(),
+            date: date.toLocaleDateString(),
+            // toDateString
         }
+        console.log(appoinment);
         // send to server
         fetch('http://localhost:5000/appoinments', {
             method: 'POST',
@@ -121,7 +123,7 @@ function AppoinmentModal({ date, booking, openBooking, setBookingSuccess, handle
                                 disabled
                                 sx={{ width: '90%', m: 1 }}
                                 id="outlined-size-small"
-                                defaultValue={date}
+                                defaultValue={date.toDateString()}
                                 size="small"
                             />
                             <Button type="submit" sx={{ m: 1 }} variant="contained">Submit</Button>
